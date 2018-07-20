@@ -1,14 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QMainWindow>
+#include <QNetworkAccessManager>
+#include <QMap>
+
 #include "apimanager.h"
 #include "tools.h"
 #include "auction.h"
 #include "items.h"
+#include "listmodel.h"
 
-#include <QMainWindow>
-#include <QNetworkAccessManager>
-#include <QMap>
+
 
 
 namespace Ui {
@@ -40,9 +43,7 @@ private:
     ApiCaller* apiCaller;
     QMap<QString,Timeleft> m_TMap;
 
-    std::unordered_map<int,Items> model;
-
-
+    ListModel* listModel = new ListModel(this);
 };
 
 
