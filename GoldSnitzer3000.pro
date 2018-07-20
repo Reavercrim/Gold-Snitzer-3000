@@ -27,7 +27,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         apimanager.cpp \
-    auction.cpp
+    auction.cpp \
+    listmodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -35,7 +36,8 @@ HEADERS += \
     auction.h \
     tools.h \
     items.h \
-    secret.h
+    secret.h \
+    listmodel.h
 
 FORMS += \
         mainwindow.ui

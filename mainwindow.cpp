@@ -1,15 +1,17 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "auction.h"
-#include "secret.h"
-
 #include <algorithm>
 #include <QDate>
 #include <QMutex>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QMap>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "auction.h"
+#include "secret.h"
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QStringList lab = { "Owner", "Bid", "Buyout", "G/P" ,"Quantity" };
+
+
 
     ui->twAuc->setHeaderLabels(lab);
 
@@ -62,6 +66,8 @@ void MainWindow::handleAHUrl(QNetworkReply* reply)
 
         QUrl url = QUrl(m_json["files"][0]["url"].toString());
 
+        qDebug() << url;
+
         apiCaller->call(url,this,SLOT(handleAH(QNetworkReply*)));
 
 
@@ -83,9 +89,11 @@ void MainWindow::handleAH(QNetworkReply* reply)
 
         qDebug() << ja.toArray().size();
 
+        //WARNING ja.toArray().size()
         for (int i=0; i<ja.toArray().size(); i++)
         {
-            std::unordered_map<int,Items>::iterator got = model.find(ja[i]["item"].toInt());
+
+            std::unordered_map<int,Items>::iterator got = listModel->find(ja[i]["item"].toInt());
 
             QJsonValue jo = ja[i];
 
@@ -98,29 +106,39 @@ void MainWindow::handleAH(QNetworkReply* reply)
                     jo["quantity"].toInt(),
                     timeMap(jo["timeLeft"].toString()));
 
-            if ( got == model.end() )
+
+
+
+
+
+            if ( got == listModel->getList().end() )
             {
                 Items it;
                 it.auctions.push_back(a);
 
-                model.emplace(ja[i]["item"].toInt(),it);
-
+                listModel->add(ja[i]["item"].toInt(),it);
 
             }
             else
             {
                 got->second.auctions.push_back(a);
+
+
             }
 
-            if(a.getOwner() == "Seakornemule")
+            if(a.getOwner() == QString("Yloona"))
             {
-                model.at(ja[i]["item"].toInt()).active = true;
+
+                listModel->find(ja[i]["item"].toInt())->second.active = true;
             }
+
 
         }
 
+
+
         int i = 0;
-        for(auto elem : model)
+        for(auto elem : listModel->getList())
         {
             if (!elem.second.active)
             {
