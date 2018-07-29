@@ -8,7 +8,7 @@ ListModel::ListModel(QObject *parent)
 
 }
 
-std::unordered_map<int,Items> ListModel::getList()
+std::unordered_map<int,Items>& ListModel::getList()
 {
     return this->aucMap;
 }

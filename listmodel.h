@@ -14,7 +14,7 @@ class ListModel : public QAbstractListModel
 public:
     ListModel(QObject *parent = 0);
 
-    std::unordered_map<int,Items> getList();
+    std::unordered_map<int, Items> &getList();
 
     void mapIndex();
 

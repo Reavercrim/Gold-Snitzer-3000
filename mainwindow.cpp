@@ -89,7 +89,7 @@ void MainWindow::handleAH(QNetworkReply* reply)
 
         qDebug() << ja.toArray().size();
 
-        //WARNING ja.toArray().size()
+
         for (int i=0; i<ja.toArray().size(); i++)
         {
 
@@ -126,11 +126,11 @@ void MainWindow::handleAH(QNetworkReply* reply)
 
             }
 
-            if(a.getOwner() == QString("Yloona"))
+            /*if(a.getOwner() == QString("Yloona"))
             {
 
                 listModel->find(ja[i]["item"].toInt())->second.active = true;
-            }
+            }*/
 
 
         }
@@ -140,10 +140,10 @@ void MainWindow::handleAH(QNetworkReply* reply)
         int i = 0;
         for(auto elem : listModel->getList())
         {
-            if (!elem.second.active)
+            /*if (!elem.second.active)
             {
                 continue;
-            }
+            }*/
 
             QTreeWidgetItem *tree= new QTreeWidgetItem();
             tree->setText(0,QString::number(elem.second.auctions[0].getId()));
